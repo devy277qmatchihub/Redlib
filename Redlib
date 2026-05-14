@@ -2667,7 +2667,7 @@ function redzlib:MakeWindow(Configs)
 				Font = Enum.Font.GothamBold,
 				TextSize = 12,
 				TextColor3 = Color3.fromRGB(220, 220, 220),
-				BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+				BackgroundColor3 = Color3.fromRGB(88, 101, 242)
 			})Make("Corner", JoinButton, UDim.new(0, 5))
 			
 			local ClickDelay
