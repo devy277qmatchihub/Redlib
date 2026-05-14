@@ -18,7 +18,7 @@ local redzlib = {
 			}),
 			["Color Hub 2"] = Color3.fromRGB(30, 30, 30),
 			["Color Stroke"] = Color3.fromRGB(40, 40, 40),
-			["Color Theme"] = Color3.fromRGB(88, 101, 242),
+			["Color Theme"] = Color3.fromRGB(75, 165, 40),
 			["Color Text"] = Color3.fromRGB(243, 243, 243),
 			["Color Dark Text"] = Color3.fromRGB(180, 180, 180)
 		},
@@ -2598,7 +2598,9 @@ function redzlib:MakeWindow(Configs)
 			function TextBox:Destroy() Button:Destroy() end
 			return TextBox
 		end
-		function Tab:AddDiscordInvite(Configs)
+				function Tab:AddDiscordInvite(Configs)
+			Configs = Configs or {}
+			
 			local Title = Configs[1] or Configs.Name or Configs.Title or "Discord"
 			local Desc = Configs.Desc or Configs.Description or ""
 			local Logo = Configs[2] or Configs.Logo or ""
@@ -2626,14 +2628,17 @@ function redzlib:MakeWindow(Configs)
 				AnchorPoint = Vector2.new(0, 1),
 				Position = UDim2.new(0, 0, 1),
 				BackgroundColor3 = Theme["Color Hub 2"]
-			}), "Frame")Make("Corner", FrameHolder)
+			}), "Frame")
+			Make("Corner", FrameHolder)
 			
 			local ImageLabel = Create("ImageLabel", FrameHolder, {
 				Size = UDim2.new(0, 30, 0, 30),
 				Position = UDim2.new(0, 7, 0, 7),
 				Image = Logo,
 				BackgroundTransparency = 1
-			})Make("Corner", ImageLabel, UDim.new(0, 4))Make("Stroke", ImageLabel)
+			})
+			Make("Corner", ImageLabel, UDim.new(0, 4))
+			Make("Stroke", ImageLabel)
 			
 			local LTitle = InsertTheme(Create("TextLabel", FrameHolder, {
 				Size = UDim2.new(1, -52, 0, 15),
@@ -2667,8 +2672,9 @@ function redzlib:MakeWindow(Configs)
 				Font = Enum.Font.GothamBold,
 				TextSize = 12,
 				TextColor3 = Color3.fromRGB(220, 220, 220),
-				BackgroundColor3 = Color3.fromRGB(88, 101, 242)
-			})Make("Corner", JoinButton, UDim.new(0, 5))
+				BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+			})
+			Make("Corner", JoinButton, UDim.new(0, 5))
 			
 			local ClickDelay
 			JoinButton.Activated:Connect(function()
@@ -2680,25 +2686,115 @@ function redzlib:MakeWindow(Configs)
 					Text = "Copied to Clipboard",
 					BackgroundColor3 = Color3.fromRGB(100, 100, 100),
 					TextColor3 = Color3.fromRGB(150, 150, 150)
-				})task.wait(5)
+				})
+				task.wait(5)
 				SetProps(JoinButton, {
 					Text = "Join",
 					BackgroundColor3 = Color3.fromRGB(50, 150, 50),
 					TextColor3 = Color3.fromRGB(220, 220, 220)
-				})ClickDelay = false
+				})
+				ClickDelay = false
 			end)
 			
 			local DiscordInvite = {}
-			function DiscordInvite:Destroy() InviteHolder:Destroy() end
-			function DiscordInvite:Visible(...) Funcs:ToggleVisible(InviteHolder, ...) end
+			function DiscordInvite:Destroy()
+				InviteHolder:Destroy()
+			end
+			function DiscordInvite:Visible(...)
+				Funcs:ToggleVisible(InviteHolder, ...)
+			end
 			return DiscordInvite
 		end
-		return Tab
-	end
-	
-	CloseButton.Activated:Connect(Window.CloseBtn)
-	MinimizeButton.Activated:Connect(Window.MinimizeBtn)
-	return Window
-end
-
+		
+		function Tab:AddBanner(Configs)
+			Configs = Configs or {}
+			
+			local Image = Configs[1] or Configs.Image or ""
+			local Url = Configs[2] or Configs.Url or ""
+			local Title = Configs.Title or "Blue X Hub Community"
+			local Desc = Configs.Desc or Configs.Description or ""
+			
+			local Holder = Create("Frame", Container, {
+				Size = UDim2.new(1, 0, 0, 175),
+				Name = "Option",
+				BackgroundTransparency = 1
+			})
+			
+			local Banner = Create("ImageLabel", Holder, {
+				Size = UDim2.new(1, 0, 0, 110),
+				BackgroundTransparency = 1,
+				Image = Image,
+				ScaleType = Enum.ScaleType.Crop,
+				ClipsDescendants = true
+			})
+			Make("Corner", Banner, UDim.new(0, 10))
+			Make("Stroke", Banner)
+			
+			local Info = InsertTheme(Create("Frame", Holder, {
+				Size = UDim2.new(1, 0, 0, 55),
+				Position = UDim2.new(0, 0, 0, 120),
+				BackgroundColor3 = Theme["Color Hub 2"]
+			}), "Frame")
+			Make("Corner", Info)
+			
+			local TitleLabel = InsertTheme(Create("TextLabel", Info, {
+				Size = UDim2.new(1, -14, 0, 18),
+				Position = UDim2.new(0, 7, 0, 6),
+				BackgroundTransparency = 1,
+				TextXAlignment = "Left",
+				Font = Enum.Font.GothamBold,
+				TextSize = 12,
+				Text = Title
+			}), "Text")
+			
+			local DescLabel = InsertTheme(Create("TextLabel", Info, {
+				Size = UDim2.new(1, -14, 0, 14),
+				Position = UDim2.new(0, 7, 0, 24),
+				BackgroundTransparency = 1,
+				TextXAlignment = "Left",
+				Font = Enum.Font.Gotham,
+				TextSize = 10,
+				Text = Desc
+			}), "DarkText")
+			
+			local Button = Create("TextButton", Info, {
+				Size = UDim2.new(1, -14, 0, 16),
+				Position = UDim2.new(0, 7, 1, -20),
+				Text = "Go to Server",
+				Font = Enum.Font.GothamBold,
+				TextSize = 11,
+				TextColor3 = Color3.fromRGB(220, 220, 220),
+				BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+			})
+			Make("Corner", Button, UDim.new(0, 5))
+			
+			local Busy
+			Button.Activated:Connect(function()
+				if Busy then return end
+				Busy = true
+				setclipboard(Url)
+				SetProps(Button, {
+					Text = "Copied Invite",
+					BackgroundColor3 = Color3.fromRGB(100, 100, 100),
+					TextColor3 = Color3.fromRGB(150, 150, 150)
+				})
+				task.wait(3)
+				SetProps(Button, {
+					Text = "Go to Server",
+					BackgroundColor3 = Color3.fromRGB(50, 150, 50),
+					TextColor3 = Color3.fromRGB(220, 220, 220)
+				})
+				Busy = false
+			end)
+			
+			local BannerObj = {}
+			function BannerObj:Destroy()
+				Holder:Destroy()
+			end
+			function BannerObj:Visible(...)
+				Funcs:ToggleVisible(Holder, ...)
+			end
+			return BannerObj
+		end
+		
 return redzlib
